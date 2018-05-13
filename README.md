@@ -1,1 +1,4 @@
-# complexide_a
+# complexide
+Arvore geradora mínima
+
+Kruskal e Prim
