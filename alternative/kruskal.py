@@ -14,25 +14,25 @@ def smallerEdge(graph: Graph, Q: set):
             cWeight = w
     return smaller
     
-def get_forest(node: int, F: set) -> frozenset:
-    for f in F:
-        if node in f:
-            return f
+def get_tree(node: int, F: set) -> frozenset:
+    for t in F:
+        if node in t:
+            return t
     return None
 
 def kruskal(graph: Graph):
     S = set()
     Q = set(graph.get_all_edges())
     F = set( frozenset({x}) for x in range(graph.get_nNodes()) )
-    while len(Q) != 0:
+    while len(Q) != 0 or len(F) != 1:
         a = smallerEdge(graph, Q)
         Q = Q.difference({a})
-        Fu = get_forest(a[0], F)
-        Fv = get_forest(a[1], F)
-        if Fu != Fv:
+        Tu = get_tree(a[0], F)
+        Tv = get_tree(a[1], F)
+        if Tu != Tv:
             S = S.union({a})
-            f = Fu.union(Fv)
-            F = F.difference({Fu, Fv})
+            f = Tu.union(Tv)
+            F = F.difference({Tu, Tv})
             F = F.union({f})
     return S
     

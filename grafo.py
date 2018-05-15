@@ -1,5 +1,4 @@
 ##Gerando grafo em matriz de adjacencia
-big_number = 99**9999
 nodes = []
 edges = []
 
@@ -33,35 +32,41 @@ def prim():
     a = q[2]
     q.remove(a)
     nq.append(a)
-    min_edges = edges[1]
+    #min_edges = edges[1]
     while(len(q) > 0):
-        min_edges = ['X', 'X', big_number] #gambis
+        min_edges = None
         for e in edges:
-            for i in q:
-                for j in nq:
-                    if(e[0] == i and e[1] == j):
-                        if (min_edges[2] > e[2]):
-                            #print(min_edges, e)
-                            min_edges = e
+            if e[0] in q and e[1] in nq:
+                if not min_edges or min_edges[2] > e[2]:
+                    #print(min_edges, e)
+                    min_edges = e
 
         s.append(min_edges)
         nq.append(min_edges[0])
         q.remove(min_edges[0])
 
-    print('Árvore geradora mínima Prim:')
-    for i in s:
-        print(i)
+    #print('Árvore geradora mínima Prim:')
+    #for i in s:
+    #    print(i)
+
+    sum = 0
+    for h in s:
+        sum+= h[2]
+
+    return s, sum
 
 
 #aux functions for kruskal
 def findNodeInFlorest(f,node1,node2):
     err = 0
-    for j in f:
-        try:
-            if ( j.index(node1) > -1 and j.index(node2) > -1):
-                return True
-        except:
-            err+= 1
+    for tree in f:
+        if node1 in tree and node2 in tree:
+            return True
+#        try:
+#            if ( j.index(node1) > -1 and j.index(node2) > -1):
+#                return True
+#        except:
+#            err+= 1
     return False
 
 def unionFlorest(f, node1, node2):
@@ -85,27 +90,26 @@ def unionFlorest(f, node1, node2):
 
         pos+=1
 
+    """
+    for i in range(len(f)):
+        if node1 in f[i]:
+            a = i
+        if node2 in f[i]:
+            b = i
+    """
 
     a_aux = f[a]
     b_aux = f[b]
 
+    # remover da arvore
     for k in f:
-        try:
-            #print('pos node2: ', k.index(node2))
-            if (k.index(node2) >=0):
-                f.remove(k)
-                #print('Removendo nodo 2: ', f)
-        except:
-            err += 1
-
+        if node2 in k:
+            f.remove(k)
+            break
     for k in f:
-        try:
-            #print('pos node1: ', k.index(node1))
-            if (k.index(node1) >=0):
-                f.remove(k)
-                #print('Removendo nodo 1: ' ,f)
-        except:
-            err+=1
+        if node1 in k:
+            f.remove(k)
+            break
 
     #print('soma de nodos: ', a_aux + b_aux)
     f.append(a_aux + b_aux)
@@ -122,8 +126,9 @@ def kruskal():
     for i in nodes: f.append([i])
 
     while(len(q) > 0 or len(f) > 1):
+        #print(q)
         min_edge = q[0]
-        for i in q:
+        for i in q[1:]:
             if(i[2] < min_edge[2]):
                 min_edge = i
         q.remove(min_edge)
@@ -137,13 +142,14 @@ def kruskal():
         sum+= h[2]
 
 
-    print('Conjunto s: ',s)
+    #print('Conjunto s: ',s)
     print('Peso: ', sum)
 
     #print(f)
     #print(sorted(f[0]))
+    return s, sum
 
-
+"""
 insertNode('A')
 insertNode('B')
 insertNode('C')
@@ -161,8 +167,18 @@ insertEdges('C','F', 3)
 insertEdges('D','E', 7)
 insertEdges('D','F', 4)
 insertEdges('E','F', 8)
+"""
 
-#prim()
+def load_graph(filename):
+    with open('graphs/'+filename) as file:
+        lines = file.read().splitlines()
+        nNodes = int(lines[0].split(' ')[1])
+        for line in lines[1:nNodes]:
+            data = line.split(' ')
+            insertNode(data[0])
 
-#kruskal()
+        for line in lines[nNodes+2:]:
+            data = line.split(' ')
+            insertEdges(data[0], data[1], float(data[2]))
+
 

@@ -19,8 +19,8 @@ class Graph:
 
             self.nEdges = 0
             for line in lines[self.nNodes+2:]:
-                data = [int(d) for d in line.split(' ')]
-                self.set_weight(data[0]-1, data[1]-1, data[2])
+                data = line.split(' ')
+                self.set_weight(int(data[0])-1, int(data[1])-1, float(data[2]))
                 self.nEdges += 1
 
     def get_nNodes(self):
