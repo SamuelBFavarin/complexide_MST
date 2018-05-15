@@ -16,22 +16,24 @@ instance_files = [
     'costa/sawmill.net',
     'costa/strike.net',
     'normalizadas/adjnoun.net',
-#    'normalizadas/celegans_metabolic.net',
-#    'normalizadas/celegansneural.net',
+    'normalizadas/celegans_metabolic.net',
+    'normalizadas/celegansneural.net',
     'normalizadas/dolphins.net',
-#    'normalizadas/email.net',
+    'normalizadas/email.net',
     'normalizadas/football.net',
-#    'normalizadas/jazz.net',
+    'normalizadas/jazz.net',
     'normalizadas/karate.net',
     'normalizadas/lesmis.net',
     'normalizadas/polbooks.net',
 ]
 
+output_folder = 'tests/'
+
 ## PRIM
 for file in instance_files:
     graph = Graph(file)
     print('prim', file)
-    with open('tests/prim', 'a') as log:
+    with open(output_folder + 'prim', 'a') as log:
         for i in range(30):
             start = time()
             prim(graph)
@@ -40,6 +42,7 @@ for file in instance_files:
                 str(graph.get_nNodes()),
                 str(graph.get_nEdges()),
                 "prim",
+                file,
                 str(runtime*1000),
             ]
             log.write(';'.join(a) + '\n')
@@ -49,7 +52,7 @@ for file in instance_files:
 for file in instance_files:
     grafo.load_graph(file)
     print('kruskal', file)
-    with open('tests/kruskal', 'a') as log:
+    with open(output_folder + 'kruskal', 'a') as log:
         for i in range(30):
             start = time()
             grafo.kruskal()
@@ -58,6 +61,7 @@ for file in instance_files:
                 str(len(grafo.nodes)),
                 str(int(len(grafo.edges)/2)),
                 "kruskal",
+                file,
                 str(runtime*1000),
             ]
             log.write(';'.join(a) + '\n')
@@ -67,7 +71,7 @@ for file in instance_files:
 for file in instance_files:
     graph = Graph(file)
     print('kruskalSorted', file)
-    with open('tests/kruskalSorted', 'a') as log:
+    with open(output_folder + 'kruskalSorted', 'a') as log:
         for i in range(30):
             start = time()
             kruskalSorted(graph)
@@ -76,6 +80,7 @@ for file in instance_files:
                 str(graph.get_nNodes()),
                 str(graph.get_nEdges()),
                 "kruskalSorted",
+                file,
                 str(runtime*1000),
             ]
             log.write(';'.join(a) + '\n')
