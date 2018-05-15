@@ -143,6 +143,8 @@ insertEdges('E','F', 8)
 """
 
 def load_graph(filename):
+    del nodes[:]
+    del edges[:]
     with open('graphs/'+filename) as file:
         lines = file.read().splitlines()
         nNodes = int(lines[0].split(' ')[1])
@@ -153,5 +155,4 @@ def load_graph(filename):
         for line in lines[nNodes+2:]:
             data = line.split(' ')
             insertEdges(data[0], data[1], float(data[2]))
-
 

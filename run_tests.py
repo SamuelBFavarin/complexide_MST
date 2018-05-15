@@ -16,10 +16,10 @@ instance_files = [
     'costa/sawmill.net',
     'costa/strike.net',
     'normalizadas/adjnoun.net',
-    'normalizadas/celegans_metabolic.net',
-    'normalizadas/celegansneural.net',
+#    'normalizadas/celegans_metabolic.net',
+#    'normalizadas/celegansneural.net',
     'normalizadas/dolphins.net',
-    'normalizadas/email.net',
+#    'normalizadas/email.net',
     'normalizadas/football.net',
     'normalizadas/jazz.net',
     'normalizadas/karate.net',
@@ -30,10 +30,14 @@ instance_files = [
 output_folder = 'tests/'
 
 ## PRIM
+#"""
+file = open(output_folder + 'prim.csv', 'w')
+file.write('n;m;algorithm;instance;time\n')
+file.close()
 for file in instance_files:
     graph = Graph(file)
-    print('prim', file)
-    with open(output_folder + 'prim', 'a') as log:
+    print('prim', file, graph.get_nNodes(), graph.get_nEdges())
+    with open(output_folder + 'prim.csv', 'a') as log:
         for i in range(30):
             start = time()
             prim(graph)
@@ -46,13 +50,17 @@ for file in instance_files:
                 str(runtime*1000),
             ]
             log.write(';'.join(a) + '\n')
-        
+#"""        
 
 ## KRUSKAL
+"""
+file = open(output_folder + 'kruskal.csv', 'w')
+file.write('n;m;algorithm;instance;time\n')
+file.close()
 for file in instance_files:
     grafo.load_graph(file)
     print('kruskal', file)
-    with open(output_folder + 'kruskal', 'a') as log:
+    with open(output_folder + 'kruskal.csv', 'a') as log:
         for i in range(30):
             start = time()
             grafo.kruskal()
@@ -65,13 +73,17 @@ for file in instance_files:
                 str(runtime*1000),
             ]
             log.write(';'.join(a) + '\n')
-        
+#"""
 
 ## KRUSKAL sorted
+"""
+file = open(output_folder + 'kruskalSorted.csv', 'w')
+file.write('n;m;algorithm;instance;time\n')
+file.close()
 for file in instance_files:
     graph = Graph(file)
     print('kruskalSorted', file)
-    with open(output_folder + 'kruskalSorted', 'a') as log:
+    with open(output_folder + 'kruskalSorted.csv', 'a') as log:
         for i in range(30):
             start = time()
             kruskalSorted(graph)
@@ -84,5 +96,5 @@ for file in instance_files:
                 str(runtime*1000),
             ]
             log.write(';'.join(a) + '\n')
-        
+"""
 
