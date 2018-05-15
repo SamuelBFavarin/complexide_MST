@@ -25,6 +25,7 @@ plotNodes <- function(data){
   )
   fit <- lm(log(data$time) ~ log(data$n*data$m))
   abline(fit)
+  return(fit)
 }
 
 plotEdges <- function(data){
@@ -44,9 +45,11 @@ regression <- function(data){
 }
 
 data <- prim
+fit <- lm(log(data$time) ~ log(data$n*data$m))
+summary(fit)
 
 plt <- plot3d(prim)
-plotNodes(prim)
+fit = plotNodes(prim)
 plotEdges(prim)
 regression(prim)
 
