@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import numpy as np
-from graph import Graph
+from alternative.graph import Graph
 
 
 def smallerEdge(graph: Graph, Q: set):
@@ -23,6 +23,9 @@ def prim(graph: Graph):
     Q = Q.difference({a})
     while len(Q) != 0:
         a = smallerEdge(graph, Q)
+        #if not a:
+        #    print('should have stopped', Q)
+        #    print(S)
         S = S.union({a})
         Q = Q.difference({ a[0], a[1] })
     return S
@@ -30,4 +33,5 @@ def prim(graph: Graph):
 if __name__ == '__main__':
     graph = Graph('costa/strike.net')
     print(prim(graph))
+
 

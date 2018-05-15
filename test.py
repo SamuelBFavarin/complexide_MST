@@ -19,6 +19,8 @@ kruskalTime = time() - start
 
 print('Kruskal:', costKruskal, 'Time:', kruskalTime)
 
+#for e in sorted(primSol, key=lambda e: (min(e[0], e[1]), max(e[0], e[1]))):
+#    print(min(e[0],e[1]), '->', max(e[0],e[1]))
 
 #print('Comparing solutions')
 #for edge in primSol:

@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
-from graph import Graph
-from kruskal import kruskal
-from prim import prim
+from alternative.graph import Graph
+from alternative.kruskal import kruskal, kruskalSorted
+from alternative.prim import prim
 
 from time import time
 
@@ -18,9 +18,22 @@ start = time()
 kruskalSol = kruskal(graph)
 kruskalTime = time() - start
 
-print('Prim:', sum([ graph.get_weight(e[0], e[1]) for e in primSol ]), 'Time:', primTime)
-print('Kruskal:', sum([ graph.get_weight(e[0], e[1]) for e in kruskalSol ]), 'Time:', kruskalTime)
+start = time()
+kruskalSortedSol = kruskalSorted(graph)
+kruskalSortedTime = time() - start
 
+def get_cost(sol):
+    return sum([ graph.get_weight(e[0], e[1]) for e in sol ])
+
+print('Prim:', get_cost(primSol), 'Time:', primTime)
+
+print('Kruskal:', get_cost(kruskalSol), 'Time:', kruskalTime)
+
+print('KruskalSorted:', get_cost(kruskalSortedSol), 'Time:', kruskalSortedTime)
+
+#print('Solution:')
+#for e in sorted(primSol, key=lambda e: (min(e[0], e[1]), max(e[0], e[1]))  ):
+#    print(min(e[0],e[1])+1, '->', max(e[0],e[1])+1)
 
 #print('Comparing solutions')
 #for edge in primSol:

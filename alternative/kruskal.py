@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 import numpy as np
-from graph import Graph
-
+from alternative.graph import Graph
+from time import time
 
 def smallerEdge(graph: Graph, Q: set):
     smaller = None
@@ -21,12 +21,31 @@ def get_tree(node: int, F: set) -> frozenset:
     return None
 
 def kruskal(graph: Graph):
+    timeTest = 0
     S = set()
     Q = set(graph.get_all_edges())
     F = set( frozenset({x}) for x in range(graph.get_nNodes()) )
-    while len(Q) != 0 or len(F) != 1:
+    while len(Q) > 0 and len(F) > 1:
         a = smallerEdge(graph, Q)
         Q = Q.difference({a})
+        Tu = get_tree(a[0], F)
+        Tv = get_tree(a[1], F)
+        if Tu != Tv:
+            S = S.union({a})
+            f = Tu.union(Tv)
+            F = F.difference({Tu, Tv})
+            F = F.union({f})
+    return S
+
+
+
+def kruskalSorted(graph: Graph):
+    timeTest = 0
+    S = set()
+    Q = sorted(graph.get_all_edges(), key=lambda e: graph.get_weight(e[0],e[1]))
+    F = set( frozenset({x}) for x in range(graph.get_nNodes()) )
+    while len(Q) > 0 and len(F) > 1:
+        a = Q.pop()
         Tu = get_tree(a[0], F)
         Tv = get_tree(a[1], F)
         if Tu != Tv:

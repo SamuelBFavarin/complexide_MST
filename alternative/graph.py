@@ -8,10 +8,10 @@ class Graph:
     def __init__(self, filename):
         self.nNodes = 0
         self.labels = []
-        with open('../graphs/'+filename) as file:
+        with open('graphs/'+filename) as file:
             lines = file.read().splitlines()
             self.nNodes = int(lines[0].split(' ')[1])
-            for line in lines[1:self.nNodes]:
+            for line in lines[1:self.nNodes+1]:
                 data = line.split(' ')
                 self.labels.append( data[1][1:-1] )
 

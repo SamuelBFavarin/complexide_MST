@@ -29,7 +29,7 @@ def prim():
     s = []
     q = nodes[:]
     nq = []
-    a = q[2]
+    a = q[0]
     q.remove(a)
     nq.append(a)
     #min_edges = edges[1]
@@ -58,58 +58,34 @@ def prim():
 
 #aux functions for kruskal
 def findNodeInFlorest(f,node1,node2):
-    err = 0
+    #err = 0
     for tree in f:
         if node1 in tree and node2 in tree:
             return True
-#        try:
-#            if ( j.index(node1) > -1 and j.index(node2) > -1):
-#                return True
-#        except:
-#            err+= 1
+    #    try:
+    #        if ( j.index(node1) > -1 and j.index(node2) > -1):
+    #            return True
+    #    except:
+    #        err+= 1
     return False
 
 def unionFlorest(f, node1, node2):
-    err = 0
     a = 0
     b = 0
-    pos = 0
     #print('Nodos: ', node1 , node2)
     #print('Floresta inicial: ', f)
-    for j in f:
-        try:
-            if (j.index(node2) > -1):
-                b = pos
-        except ValueError:
-            err += 1
-        try:
-            if (j.index(node1) > -1):
-                a = pos
-        except ValueError:
-            err +=1
 
-        pos+=1
-
-    """
     for i in range(len(f)):
         if node1 in f[i]:
             a = i
         if node2 in f[i]:
             b = i
-    """
 
     a_aux = f[a]
     b_aux = f[b]
 
-    # remover da arvore
-    for k in f:
-        if node2 in k:
-            f.remove(k)
-            break
-    for k in f:
-        if node1 in k:
-            f.remove(k)
-            break
+    del f[max(a,b)]
+    del f[min(a,b)]
 
     #print('soma de nodos: ', a_aux + b_aux)
     f.append(a_aux + b_aux)
@@ -125,8 +101,7 @@ def kruskal():
     f = []
     for i in nodes: f.append([i])
 
-    while(len(q) > 0 or len(f) > 1):
-        #print(q)
+    while(len(q) > 0 and len(f) > 1):
         min_edge = q[0]
         for i in q[1:]:
             if(i[2] < min_edge[2]):
@@ -134,7 +109,6 @@ def kruskal():
         q.remove(min_edge)
         if(findNodeInFlorest(f,min_edge[0],min_edge[1]) == False):
             s.append(min_edge)
-            #print(s)
             f = unionFlorest(f, min_edge[0], min_edge[1])
 
     sum = 0
@@ -143,7 +117,6 @@ def kruskal():
 
 
     #print('Conjunto s: ',s)
-    print('Peso: ', sum)
 
     #print(f)
     #print(sorted(f[0]))
@@ -173,7 +146,7 @@ def load_graph(filename):
     with open('graphs/'+filename) as file:
         lines = file.read().splitlines()
         nNodes = int(lines[0].split(' ')[1])
-        for line in lines[1:nNodes]:
+        for line in lines[1:nNodes+1]:
             data = line.split(' ')
             insertNode(data[0])
 
